@@ -40,9 +40,9 @@ class GANPipeline:
 
         discriminator_losses: list[float] = []
 
-        for i in range(epochs):
+        for epoch_number in range(epochs):
 
-            for training_batch in dataloader:
+            for batch_number, training_batch in enumerate(dataloader):
 
                 training_batch = training_batch.float()
 
@@ -98,7 +98,9 @@ class GANPipeline:
 
                 self.generator_optimizer.step()
 
-            print(f"Epoch {i+1} done.")
+                print(f"Batch {batch_number+1} done.")
+
+            print(f"Epoch {epoch_number+1} done.")
 
             if learning_rate_scheduler is not None:
 
