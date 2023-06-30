@@ -33,8 +33,6 @@ Preprocessing the data involves a few steps: we first convert the HEIC images to
 
 In this case, we take 90, 180 and 270 degree rotations, then apply Gaussian noise to the images. This results in 8 images generated from 1 original sample, for a total of 12000 images generated from the original data.
 
-All images are scaled down on each side by a factor of 8, giving is 126x126 sized images.
-
 # Generator and Discriminator Architecture
 
 We will be using the generator and discriminator architectures from the paper "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks" [2]

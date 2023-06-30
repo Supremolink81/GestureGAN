@@ -2,10 +2,32 @@ import torch
 import torch.nn as nn
 
 class Generator(nn.Module):
+
+    latent_vector_size: int
     
-    def __init__(self, color_channels: int, latent_vector_size: int, feature_map_size: int):
+    def __init__(self, latent_vector_size: int):
 
         super(Generator, self).__init__()
+
+        self.latent_vector_size = latent_vector_size
+
+    def forward(self, latent_vector: torch.Tensor) -> torch.Tensor:
+
+        assert False
+    
+class ConvolutionalGenerator(Generator):
+
+    color_channels: int
+
+    feature_map_size: int
+
+    def __init__(self, color_channels: int, latent_vector_size: int, feature_map_size: int):
+
+        super(ConvolutionalGenerator, self).__init__(latent_vector_size)
+
+        self.color_channels = color_channels
+
+        self.feature_map_size = feature_map_size
 
         self.latent_to_feature_mapping_8 = nn.Sequential(
             nn.ConvTranspose2d(latent_vector_size, feature_map_size * 8, kernel_size=4, stride=1, padding=0, bias=False),
@@ -36,7 +58,7 @@ class Generator(nn.Module):
             nn.Tanh(),
         )
 
-    def forward(self, latent_vector: torch.Tensor):
+    def forward(self, latent_vector: torch.Tensor) -> torch.Tensor:
 
         feature_mapping_8: torch.Tensor = self.latent_to_feature_mapping_8(latent_vector)
 
