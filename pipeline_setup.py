@@ -1,8 +1,11 @@
 import torch
+import torchvision
+import numpy as np
 from matplotlib import pyplot as plt
 from torch.utils import data
 import os
 import preprocessing
+from generator import ConvolutionalGenerator
     
 class GestureGANDataset(data.Dataset):
 
@@ -63,7 +66,7 @@ def load_generator_dataset(path: str, preload_tensors: bool = False) -> GestureG
 def get_training_hyperparameters() -> tuple[float, float, int, int]:
 
     """
-    Helper function to get the learning rate, epochs and batch size.
+    Helper function to get the learning rate, beta values, epochs and batch size.
 
     Args:
 
@@ -71,18 +74,20 @@ def get_training_hyperparameters() -> tuple[float, float, int, int]:
 
     Returns:
 
-        A tuple containing the learning rate, epochs and batch size.
+        A tuple containing the learning rate, beta values, epochs and batch size.
     """
 
     LEARNING_RATE: float = float(input("Enter learning rate: "))
 
     BETA1: float = float(input("Enter beta1 value: "))
 
+    BETA2: float = float(input("Enter beta2 value: "))
+
     EPOCHS: int = int(input("Enter epochs: "))
 
     BATCH_SIZE: int = int(input("Enter batch size: "))
 
-    return (LEARNING_RATE, BETA1, EPOCHS, BATCH_SIZE)
+    return (LEARNING_RATE, BETA1, BETA2, EPOCHS, BATCH_SIZE)
 
 def plot_gan_loss_graphs(generator_loss_values: list[float], discriminator_loss_values: list[float]) -> None:
 
@@ -103,14 +108,48 @@ def plot_gan_loss_graphs(generator_loss_values: list[float], discriminator_loss_
 
     _, axis = plt.subplots(1, 2)
 
-    axis[0, 0].plot(list(range(len(generator_loss_values))), generator_loss_values)
-    axis[0, 0].set_title("Generator Loss Values")
-    axis[0, 0].set_xlabel("Batch Number")
-    axis[0, 0].set_ylabel("Loss Value")
+    axis[0].plot(list(range(len(generator_loss_values))), generator_loss_values)
+    axis[0].set_title("Generator Loss Values")
+    axis[0].set_xlabel("Batch Number")
+    axis[0].set_ylabel("Loss Value")
 
-    axis[0, 1].plot(list(range(len(discriminator_loss_values))), discriminator_loss_values)
-    axis[0, 1].set_title("Discriminator Loss Values")
-    axis[0, 1].set_xlabel("Batch Number")
-    axis[0, 1].set_ylabel("Loss Value")
+    axis[1].plot(list(range(len(discriminator_loss_values))), discriminator_loss_values)
+    axis[1].set_title("Discriminator Loss Values")
+    axis[1].set_xlabel("Batch Number")
+    axis[1].set_ylabel("Loss Value")
+
+    plt.show()
+
+def display_gan_results(generator: ConvolutionalGenerator, latent_vector_size: int, image_count: int) -> None:
+
+    """
+    Displays a sample of generated images from a generator trained as part of a GAN pipeline.
+
+    Args:
+
+        ConvolutionalGenerator generator: the GAN to use to generate samples.
+
+        int latent_vector_size: the size of the latent vector for the GAN.
+
+        int image_count: the number of images to generate.
+    """
+
+    latent_vector_batch: torch.Tensor = torch.zeros(image_count, latent_vector_size, 1, 1)
+
+    for i in range(image_count):
+
+        latent_vector_tensor_size: tuple[int, int, int] = (latent_vector_size, 1, 1)
+
+        mean_tensor: torch.Tensor = torch.zeros(latent_vector_tensor_size)
+
+        std_tensor: torch.Tensor = torch.ones(latent_vector_tensor_size)
+
+        latent_vector_batch[i] = torch.normal(mean_tensor, std_tensor)
+
+    generated_images: torch.Tensor = generator(latent_vector_batch.to(torch.device("cuda:0")))
+
+    image_grid: torch.Tensor = torchvision.utils.make_grid(generated_images, normalize=True)
+
+    image_plot: plt.AxesImage = plt.imshow(np.transpose(image_grid.cpu(), (1,2,0)))
 
     plt.show()

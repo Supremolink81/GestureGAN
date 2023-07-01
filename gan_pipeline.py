@@ -40,9 +40,11 @@ class GANPipeline:
 
         discriminator_losses: list[float] = []
 
+        batch_number: int = 0
+
         for epoch_number in range(epochs):
 
-            for batch_number, training_batch in enumerate(dataloader):
+            for training_batch in dataloader:
 
                 training_batch = training_batch.float()
 
@@ -54,7 +56,7 @@ class GANPipeline:
 
                 self.discriminator_optimizer.zero_grad()
 
-                real_batch_labels: torch.Tensor = torch.full((batch_size,), 1.0, dtype=float, device=gpu)
+                real_batch_labels: torch.Tensor = torch.full((batch_size,), 0.9, device=gpu).float()
 
                 real_batch_output: torch.Tensor = self.discriminator(training_batch).view(-1)
 
@@ -64,9 +66,11 @@ class GANPipeline:
 
                 # fake image training
 
-                fake_batch_labels: torch.Tensor = torch.full((batch_size,), 0.0, dtype=float, device=gpu)
+                fake_batch_labels: torch.Tensor = torch.full((batch_size,), 0.0, device=gpu).float()
 
-                noise_tensors: torch.Tensor = torch.randn(batch_size, self.generator.latent_vector_size)
+                noise_tensor_size: tuple[int, int, int, int] = (batch_size, self.generator.latent_vector_size, 1, 1)
+
+                noise_tensors: torch.Tensor = torch.normal(torch.zeros(noise_tensor_size), torch.ones(noise_tensor_size)).to(gpu)
 
                 fake_images: torch.Tensor = self.generator(noise_tensors)
 
@@ -99,6 +103,8 @@ class GANPipeline:
                 self.generator_optimizer.step()
 
                 print(f"Batch {batch_number+1} done.")
+
+                batch_number += 1
 
             print(f"Epoch {epoch_number+1} done.")
 

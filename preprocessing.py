@@ -23,7 +23,7 @@ def preprocess_image(image_name: str) -> torch.Tensor:
 
     image_object = image_object.convert("RGB")
 
-    image_object = image_object.resize((63, 63), Image.Resampling.LANCZOS)
+    image_object = image_object.resize((64, 64), Image.Resampling.LANCZOS)
 
     image_tensor: torch.Tensor = image_to_tensor(image_object)
 

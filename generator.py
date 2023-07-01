@@ -25,6 +25,8 @@ class ConvolutionalGenerator(Generator):
 
         super(ConvolutionalGenerator, self).__init__(latent_vector_size)
 
+        self.leaky_relu = nn.LeakyReLU(0.2, inplace=True)
+
         self.color_channels = color_channels
 
         self.feature_map_size = feature_map_size
@@ -32,25 +34,25 @@ class ConvolutionalGenerator(Generator):
         self.latent_to_feature_mapping_8 = nn.Sequential(
             nn.ConvTranspose2d(latent_vector_size, feature_map_size * 8, kernel_size=4, stride=1, padding=0, bias=False),
             nn.BatchNorm2d(feature_map_size * 8),
-            nn.ReLU(True),
+            self.leaky_relu,
         )
 
         self.feature_mapping_8_to_feature_mapping_4 = nn.Sequential(
             nn.ConvTranspose2d(feature_map_size * 8, feature_map_size * 4, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size * 4),
-            nn.ReLU(True),
+            self.leaky_relu,
         )
 
         self.feature_mapping_4_to_feature_mapping_2 = nn.Sequential(
             nn.ConvTranspose2d(feature_map_size * 4, feature_map_size * 2, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size * 2),
-            nn.ReLU(True),
+            self.leaky_relu,
         )
 
         self.feature_mapping_2_to_feature_mapping = nn.Sequential(
-            nn.ConvTranspose2d(feature_map_size * 4, feature_map_size, kernel_size=4, stride=2, padding=1, bias=False),
+            nn.ConvTranspose2d(feature_map_size * 2, feature_map_size, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size),
-            nn.ReLU(True),
+            self.leaky_relu,
         )
 
         self.feature_mapping_to_rgb = nn.Sequential(
