@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
         LEARNING_RATE, BETA1, BETA2, EPOCHS, BATCH_SIZE = get_training_hyperparameters()
 
-        generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=64).to(gpu)
+        generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=128).to(gpu)
 
         generator_optimizer: torch.optim.Optimizer = torch.optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(BETA1, BETA2))
                                                                       
