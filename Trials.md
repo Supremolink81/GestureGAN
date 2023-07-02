@@ -111,3 +111,9 @@ And the following collection of generated images:
 Back to somewhat coherent images (even though no gestures are forming, structure from the training data is coming through). Let's try training them for longer and see what kind of images are produced.
 
 We train with a learning rate of 0.001 for the discriminator, 0.002 for the generator, a batch_size of 250, 200 epochs, a beta1 value of 0.4, and a beta2 value of 0.7. This yields the following loss graphs:
+
+![Loss Function Graphs 12](./loss_function_graphs_12.png)
+
+And the following collection of generated images:
+
+![Generated Images 12](./generated_images_12.png)
