@@ -12,24 +12,28 @@ class Discriminator(nn.Module):
         self.rgb_to_feature_map = nn.Sequential(
             nn.Conv2d(color_channels, feature_map_size, kernel_size=4, stride=2, padding=1, bias=False),
             self.leaky_relu,
+            nn.Dropout(p=0.2),
         )
 
         self.feature_map_to_feature_map_2 = nn.Sequential(
             nn.Conv2d(feature_map_size, feature_map_size * 2, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size * 2),
             self.leaky_relu,
+            nn.Dropout(p=0.2),
         )
 
         self.feature_map_2_to_feature_map_4 = nn.Sequential(
             nn.Conv2d(feature_map_size * 2, feature_map_size * 4, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size * 4),
             self.leaky_relu,
+            nn.Dropout(p=0.2),
         )
 
         self.feature_map_4_to_feature_map_8 = nn.Sequential(
             nn.Conv2d(feature_map_size * 4, feature_map_size * 8, kernel_size=4, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(feature_map_size * 8),
             self.leaky_relu,
+            nn.Dropout(p=0.2),
         )
 
         self.feature_map_8_to_prediction = nn.Sequential(

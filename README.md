@@ -36,7 +36,11 @@ Preprocessing the data involves a few steps: we first convert the HEIC images to
 
 We will be using the generator and discriminator architectures from the paper "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks" [2].
 
-This means we use a latent vector size of 100, as well as a feature mapping size of 64 for both the generator and the discriminator.
+The architecture is visually shown below:
+
+![DCGAN Architecture](./dcgan.png)
+
+We use a latent vector size of 100, as well as a feature mapping size of 64 for both the generator and the discriminator.
 
 # Optimizer and Loss
 
@@ -68,65 +72,9 @@ During training at each iteration, we train the discriminator and generator for 
 
 Once the generator is trained, we generate 64 latent vectors, and feed them into the generator to observe what kind of images it is generating.
 
-# Some Runs
+See the ![Trials.md](./Trials.md) file for a list of all trials.
 
-We train with a learning rate of 0.001, a batch_size of 100, 50 epochs, a beta1 value of 0.5, and a beta2 value of 0.999. This yields the following loss graphs:
-
-![Loss Function Graphs 1](./loss_function_graphs_1.png)
-
-And the following collection of generated images:
-
-![Generated Images 1](./generated_images_1.png)
-
-The generator is oscillating after some training; let's increase batch size and decrease learning rate. Since the learning adjustment is also far too large, let's decrease the beta1 and beta 2 values.
-
-We train with a learning rate of 0.0002, a batch_size of 250, 50 epochs, a beta1 value of 0.3, and a beta2 value of 0.7. This yields the following loss graphs:
-
-![Loss Function Graphs 2](./loss_function_graphs_2.png)
-
-And the following collection of generated images:
-
-![Generated Images 2](./generated_images_2.png)
-
-Alright, let's incorporate a best practice; using SGD for the discriminator. In addition, it seems the learning rate is too low while the beta values are a bit too high. Let's increase learning rate, and decrease beta1 and beta2 values. In addition, the model needs to train for longer; let's increase the epochs.
-
-We train with a learning rate of 0.0005, a batch_size of 250, 100 epochs, a beta1 value of 0.2, and a beta2 value of 0.5. This yields the following loss graphs:
-
-![Loss Function Graphs 3](./loss_function_graphs_3.png)
-
-And the following collection of generated images:
-
-![Generated Images 3](./generated_images_3.png)
-
-Okay, it seems the generator needs to be trained faster; let's increase just the beta1 and beta2 values.
-
-We train with a learning rate of 0.0005, a batch_size of 250, 100 epochs, a beta1 value of 0.3, and a beta2 value of 0.6. This yields the following loss graphs:
-
-![Loss Function Graphs 4](./loss_function_graphs_4.png)
-
-And the following collection of generated images:
-
-![Generated Images 4](./generated_images_4.png)
-
-The generator is having a hard time learning; perhaps increasing the feature map size will help. We increase the feature mapping size of the generator to 128. In addition, the generator still needs to learn; let's increase the beta values more.
-
-We train with a learning rate of 0.0005, a batch_size of 250, 100 epochs, a beta1 value of 0.5, and a beta2 value of 0.85. This yields the following loss graphs:
-
-![Loss Function Graphs 5](./loss_function_graphs_5.png)
-
-And the following collection of generated images:
-
-![Generated Images 5](./generated_images_5.png)
-
-It looks like using SGD isn't working; let's switch back to Adam for the discriminator.
-
-We train with a learning rate of 0.0005, a batch_size of 250, 100 epochs, a beta1 value of 0.5, and a beta2 value of 0.85. This yields the following loss graphs:
-
-![Loss Function Graphs 6](./loss_function_graphs_6.png)
-
-And the following collection of generated images:
-
-![Generated Images 6](./generated_images_6.png)
+# Final Results
 
 (In progress...)
 

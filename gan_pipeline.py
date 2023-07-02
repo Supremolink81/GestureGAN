@@ -48,6 +48,8 @@ class GANPipeline:
 
                 training_batch = training_batch.float()
 
+                training_batch += torch.randn(training_batch.shape)
+
                 if gpu:
 
                     training_batch = training_batch.to(gpu)
@@ -56,7 +58,7 @@ class GANPipeline:
 
                 self.discriminator_optimizer.zero_grad()
 
-                real_batch_labels: torch.Tensor = torch.full((batch_size,), 0.9, device=gpu).float()
+                real_batch_labels: torch.Tensor = torch.full((batch_size,), 1.0, device=gpu).float() + 0.05 * torch.randn((batch_size,), device=gpu)
 
                 real_batch_output: torch.Tensor = self.discriminator(training_batch).view(-1)
 
@@ -66,7 +68,7 @@ class GANPipeline:
 
                 # fake image training
 
-                fake_batch_labels: torch.Tensor = torch.full((batch_size,), 0.0, device=gpu).float()
+                fake_batch_labels: torch.Tensor = torch.full((batch_size,), 0.0, device=gpu).float() + 0.05 * torch.randn((batch_size,), device=gpu)
 
                 noise_tensor_size: tuple[int, int, int, int] = (batch_size, self.generator.latent_vector_size, 1, 1)
 

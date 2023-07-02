@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
         generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=128).to(gpu)
 
-        generator_optimizer: torch.optim.Optimizer = torch.optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(BETA1, BETA2))
+        generator_optimizer: torch.optim.Optimizer = torch.optim.Adam(generator.parameters(), lr=2*LEARNING_RATE, betas=(BETA1, BETA2))
                                                                       
         discriminator: Discriminator = Discriminator(color_channels=3, feature_map_size=64).to(gpu)
         
