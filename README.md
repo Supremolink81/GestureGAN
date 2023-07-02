@@ -128,6 +128,8 @@ And the following collection of generated images:
 
 ![Generated Images 6](./generated_images_6.png)
 
+(In progress...)
+
 # References
 
 [1] https://en.wikipedia.org/wiki/MNIST_database
