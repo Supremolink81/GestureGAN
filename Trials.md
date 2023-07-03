@@ -117,3 +117,35 @@ We train with a learning rate of 0.001 for the discriminator, 0.002 for the gene
 And the following collection of generated images:
 
 ![Generated Images 12](./generated_images_12.png)
+
+Training for longer seems to work; let's increase the epochs.
+
+We train with a learning rate of 0.001 for the discriminator, 0.002 for the generator, a batch_size of 250, 500 epochs, a beta1 value of 0.4, and a beta2 value of 0.7. This yields the following loss graphs:
+
+![Loss Function Graphs 13](./loss_function_graphs_13.png)
+
+And the following collection of generated images:
+
+![Generated Images 13](./generated_images_13.png)
+
+Alright, let's try training for even longer.
+
+We train with a learning rate of 0.001 for the discriminator, 0.002 for the generator, a batch_size of 250, 1500 epochs, a beta1 value of 0.4, and a beta2 value of 0.7. This yields the following loss graphs:
+
+![Loss Function Graphs 14](./loss_function_graphs_14.png)
+
+And the following collection of generated images:
+
+![Generated Images 14](./generated_images_14.png)
+
+Alright, this is a decent place to stop. Now, what are some possible reasons for the model producing images like this?
+
+- the discriminator is clearly outpacing the generator, which could be factoring into how the generator replicates the data distribution.
+
+- the variance in the data is high due to the variety of samples in the data in terms of gestures and scenes, causing the generator to have a harder time replicating the data distribution.
+
+- relating to the above point, the generator's architecture is too simple to capture the data distribution (this is unlikely, as the same architecture was used to generate varying faces that were coherent).
+
+- training GANs in general is a difficult endeavor.
+
+Though, all things considered, this model turned out not too bad. 

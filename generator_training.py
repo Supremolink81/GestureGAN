@@ -2,10 +2,26 @@ from pipeline_setup import *
 from gan_pipeline import GANPipeline
 from generator import ConvolutionalGenerator
 from discriminator import Discriminator
+import random
+import time
 
 if __name__ == "__main__":
 
     gpu: torch.device = torch.device("cuda:0")
+
+    generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=128).to(gpu)
+
+    generator.load_state_dict(torch.load("GestureGenerator.pth"))
+
+    while True: 
+
+        display_gan_results(generator, 100, 64)
+
+    random_seed: float = time.time()
+
+    print(random_seed)
+
+    random.seed(random_seed)
 
     generator_loss: torch.nn.modules.loss._Loss = torch.nn.BCELoss().to(gpu)
 
@@ -36,3 +52,5 @@ if __name__ == "__main__":
         plot_gan_loss_graphs(generator_loss_values, discriminator_loss_values)
 
         display_gan_results(generator, 100, 64)
+
+        torch.save(generator.state_dict(), "GestureGenerator.pth")
