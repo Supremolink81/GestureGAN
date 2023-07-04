@@ -149,3 +149,19 @@ Alright, this is a decent place to stop. Now, what are some possible reasons for
 - training GANs in general is a difficult endeavor.
 
 Though, all things considered, this model turned out not too bad. 
+
+One thing I noticed later though; the original DCGAN paper initialized model weights using a normal distribution with mean 0 and variance 0.02. I decided to try this myself for a couple runs, and here were the results:
+
+With a learning rate of 0.001 for both the generator and discriminator, a batch size of 250, beta1 and beta2 values of 0.4 and 0.7, I tried both 20 and 100 epochs, and here were the loss graphs and images for 20 epochs:
+
+![Loss Function Graphs 15](./loss_function_graphs_15.png)
+
+![Generated Images 15](./generated_images_15.png)
+
+And for 100 epochs:
+
+![Loss Function Graphs 16](./loss_function_graphs_16.png)
+
+![Generated Images 16](./generated_images_16.png)
+
+There is no significant difference between this and the runs with uniformly initialized weights, so we stop here.

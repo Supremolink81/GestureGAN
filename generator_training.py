@@ -1,5 +1,5 @@
 from pipeline_setup import *
-from gan_pipeline import GANPipeline
+from gan_pipeline import GANPipeline, weights_init
 from generator import ConvolutionalGenerator
 from discriminator import Discriminator
 import random
@@ -8,14 +8,6 @@ import time
 if __name__ == "__main__":
 
     gpu: torch.device = torch.device("cuda:0")
-
-    generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=128).to(gpu)
-
-    generator.load_state_dict(torch.load("GestureGenerator.pth"))
-
-    while True: 
-
-        display_gan_results(generator, 100, 64)
 
     random_seed: float = time.time()
 
@@ -39,10 +31,14 @@ if __name__ == "__main__":
 
         generator: ConvolutionalGenerator = ConvolutionalGenerator(color_channels=3, latent_vector_size=100, feature_map_size=128).to(gpu)
 
-        generator_optimizer: torch.optim.Optimizer = torch.optim.Adam(generator.parameters(), lr=2*LEARNING_RATE, betas=(BETA1, BETA2))
+        generator.apply(weights_init)
+
+        generator_optimizer: torch.optim.Optimizer = torch.optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(BETA1, BETA2))
                                                                       
         discriminator: Discriminator = Discriminator(color_channels=3, feature_map_size=64).to(gpu)
         
+        discriminator.apply(weights_init)
+
         discriminator_optimizer: torch.optim.Optimizer = torch.optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(BETA1, BETA2))
 
         gan_pipeline: GANPipeline = GANPipeline(generator, generator_optimizer, generator_loss, discriminator, discriminator_optimizer, discriminator_loss)
