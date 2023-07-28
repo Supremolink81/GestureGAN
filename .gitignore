@@ -1,3 +1,6 @@
 GestureGAN_venv/
 .vscode/
 data/
+processed_data/
+generated_data/
+preprocessed_data/

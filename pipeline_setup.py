@@ -140,15 +140,13 @@ def display_gan_results(generator: ConvolutionalGenerator, latent_vector_size: i
 
         latent_vector_tensor_size: tuple[int, int, int] = (latent_vector_size, 1, 1)
 
-        mean_tensor: torch.Tensor = torch.zeros(latent_vector_tensor_size)
-
-        std_tensor: torch.Tensor = torch.ones(latent_vector_tensor_size)
-
-        latent_vector_batch[i] = torch.normal(mean_tensor, std_tensor)
+        latent_vector_batch[i] = torch.randn(latent_vector_tensor_size)
 
     generated_images: torch.Tensor = generator(latent_vector_batch.to(torch.device("cuda:0")))
 
     image_grid: torch.Tensor = torchvision.utils.make_grid(generated_images, normalize=True)
+
+    print(image_grid.shape)
 
     image_plot: plt.AxesImage = plt.imshow(np.transpose(image_grid.cpu(), (1,2,0)))
 
