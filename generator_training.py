@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     gpu: torch.device = torch.device("cuda:0")
 
-    print(calculate_fid_given_paths(["data", "preprocessed_data"], batch_size=100, device=gpu, dims=2048))
+    print(calculate_fid_given_paths(["data", "preprocessed_data"], batch_size=1, device=gpu, dims=2048))
 
     exit()
 
