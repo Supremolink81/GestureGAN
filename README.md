@@ -14,9 +14,9 @@ A total of 1500 image samples were collected, according to the following format:
 
 A few sample images are shown below:
 
-![First Sample Image](./IMG_16640.png)
-![Second Sample Image](./IMG_02570.png)
-![Third Sample Image](./IMG_10920.png)
+![First Sample Image](./IMG_1478-0.png)
+![Second Sample Image](./IMG_0276.png)
+![Third Sample Image](./IMG_0675.png)
 
 Photos were taken using an iPhone 13 Pro in the HEIC format, with 2316x3088 pixel resolution. When ported to a Windows PC, their resolution changed, with some images being 756x1008 and some being 579x772.
 
